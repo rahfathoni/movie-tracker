@@ -1,3 +1,13 @@
+## WEBSITE URL
+
+https://movie-tracker-fathoni.vercel.app/
+
+## HOW TO OPEN FROM GIT REPOSITORY
+
+  1. git clone https://github.com/rahfathoni/movie-tracker.git
+  2. npm install
+  3. npm run dev
+
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.

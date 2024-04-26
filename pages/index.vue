@@ -1,39 +1,47 @@
 <script setup lang="ts">
+  const mainStore = useMainStore();
+  const { getPopularMovie, getPopularTvSeries } = mainStore;
+  await getPopularMovie();
+  await getPopularTvSeries();
+  const { movies, tvSeries } = storeToRefs(mainStore);
+  
   const toMovies = async () => {
-    await navigateTo('/movie')
-  }
-  const test = [
-    {
-      id: 1,
-      name: "satu"
-    },
-    {
-      id: 2,
-      name: "dua"
-    },
-    {
-      id: 3,
-      name: "tiga"
-    }
-  ]
+    await navigateTo('/movie');
+  };
+  const toTvSeries = async () => {
+    await navigateTo('/tvseries');
+  };
 </script>
 
 <template>
   <main id="homepage">
-    <section id="popularMoviesTop" class="flex justify-between items-center">
-      <h2 class="font-medium text-sm">
-        Popular Movies
-      </h2>
-      <MainButton 
-        label="Explore More" 
-        @click="toMovies()"
-      />
+    <section id="popularMovies">
+      <div class="flex justify-between items-center">
+        <h2 class="font-medium text-[20px]">
+          Popular Movies
+        </h2>
+        <MainButton 
+          label="Explore More" 
+          @click="toMovies()"
+        />
+      </div>
+      <div>
+        <CardsHorizontal :data="movies"/>
+      </div>
     </section>
-    <section id="popularMoviesList">
-      <CardsVertical :data="test"/>
+    <section id="popularTvSeries">
+      <div class="flex justify-between items-center">
+        <h2 class="font-medium text-[20px]">
+          Popular Tv Series
+        </h2>
+        <MainButton 
+          label="Explore More" 
+          @click="toTvSeries()"
+        />
+      </div>
+      <div>
+        <CardsHorizontal :data="tvSeries"/>
+      </div>
     </section>
-    <!-- <section id="popularTvSeries">
-
-    </section> -->
   </main>
 </template>
