@@ -11,7 +11,7 @@
 <template>
   <div id="cards">
     <div v-for="datum in data" :key="datum.id">
-      {{datum.id}} - {{ datum.name }}
+      {{datum.id}} - {{ datum.title }}
     </div>
   </div>
 </template>

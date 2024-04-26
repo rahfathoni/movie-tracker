@@ -1,24 +1,12 @@
 <script setup lang="ts">
-  // const mainStore = useMainStore();
-  // await callOnce(mainStore.fetch);
+  const mainStore = useMainStore();
+  await callOnce(mainStore.getPopularList);
+
+  const { movies, tvSeries } = storeToRefs(mainStore);
 
   const toMovies = async () => {
     await navigateTo('/movie')
   }
-  const test = [
-    {
-      id: 1,
-      name: "satu"
-    },
-    {
-      id: 2,
-      name: "dua"
-    },
-    {
-      id: 3,
-      name: "tiga"
-    }
-  ]
 </script>
 
 <template>
@@ -33,7 +21,8 @@
       />
     </section>
     <section id="popularMoviesList">
-      <CardsVertical :data="test"/>
+      <CardsVertical :data="movies"/>
+      {{ tvSeries }}
     </section>
     <!-- <section id="popularTvSeries">
 
