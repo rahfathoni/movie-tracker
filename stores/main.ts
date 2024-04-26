@@ -1,47 +1,49 @@
 import { defineStore } from "pinia";
 
-// const formattingTvSeries = (arr: Array<any>): Array<any> => {
-//   const result = arr.map((item: any) => ({
-//       ...item,
-//       title: item.name || '',
-//       original_title: item.original_name || '',
-//       release_date: item.first_air_date || ''
-//     }));
-//   console.log('result =,', result)
-//   return result;
-// }
+const formattingTvSeries = (arr: Array<any>): Array<any> => {
+  const result = arr.map((item: any) => ({
+      ...item,
+      title: item.name || '',
+      original_title: item.original_name || '',
+      release_date: item.first_air_date || ''
+    }));
+  return result;
+}
 
 export const useMainStore = defineStore('mainStore', {
   state: () => ({
-    movies: [],
-    tvSeries: [],
+    movies: [] as any[],
+    tvSeries: [] as any[],
     search: {
-      input: '',
-      data: []
+      input: '' as String,
+      data: [] as any[]
     },
     key: "973c81cddba2fbdbbb75d41fea67bbd8", // for trainig development purpose;
     mainDomain: "https://api.themoviedb.org/3/"
   }),
   actions: {
-    async getPopularList() {
+    async getPopularMovie() {
+      this.movies = [];
       try {
         const popularMovie = await useFetch(`${this.mainDomain}/movie/popular?api_key=${this.key}`);
-        const popularTvSeries = await useFetch(`${this.mainDomain}/tv/popular?api_key=${this.key}`);
+        console.log("[RES] getPopularMovie =>", popularMovie.data.value)
         if (popularMovie.data.value) {
           this.movies = (popularMovie.data.value as any).results;
-          this.movies = (popularMovie.data.value as any).results;
-        }
-        if (popularTvSeries.data.value) {
-          this.tvSeries = (popularTvSeries.data.value as any).results;
-          // this.tvSeries = (popularTvSeries.data.value as any).results.map((item: any) => ({
-          //   ...item,
-          //   title: item.name,
-          //   original_title: item.original_name,
-          //   release_date: item.first_air_date
-          // }));
         }
       } catch (err) {
-        console.log('[ERR] getPopularList', err)
+        console.log('[ERR] getPopularMovie', err)
+      }
+    },
+    async getPopularTvSeries() {
+      this.tvSeries = [];
+      try {
+        const popularTvSeries = await useFetch(`${this.mainDomain}/tv/popular?api_key=${this.key}`);
+        console.log("[RES] getPopularTvSeries =>", popularTvSeries.data.value)
+        if (popularTvSeries.data.value) {
+          this.tvSeries = formattingTvSeries((popularTvSeries.data.value as any).results);
+        }
+      } catch (err) {
+        console.log('[ERR] getPopularTvSeries', err)
       }
     }
   }
