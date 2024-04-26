@@ -1,5 +1,5 @@
 <template>
   <main>
-    Tv show page
+    Tv series page
   </main>
 </template>
