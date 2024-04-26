@@ -1,4 +1,7 @@
 <script setup lang="ts">
+  // const mainStore = useMainStore();
+  // await callOnce(mainStore.fetch);
+
   const toMovies = async () => {
     await navigateTo('/movie')
   }
