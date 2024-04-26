@@ -11,3 +11,7 @@
 .bg-cust-gray {
   background-color: #d9d9d9;
 }
+
+.min-w-stretch-cust {
+  min-width: stretch;
+}
