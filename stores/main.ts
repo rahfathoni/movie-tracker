@@ -15,7 +15,12 @@ export const useMainStore = defineStore('mainStore', {
     movies: [] as any[],
     tvSeries: [] as any[],
     search: {
-      input: '' as String,
+      name: '' as String,
+      genre: {
+        id: '' as String,
+        name: '' as String
+      },
+      page: 1,
       data: [] as any[]
     },
     detail: {
@@ -24,12 +29,19 @@ export const useMainStore = defineStore('mainStore', {
       cast: [] as any[],
       similar: [] as any[]
     },
+    genres: {
+      movie: [] as any[],
+      tvSeries: [] as any[]
+    },
     key: "973c81cddba2fbdbbb75d41fea67bbd8", // for trainig development purpose;
     mainDomain: "https://api.themoviedb.org/3"
   }),
   getters: {
     getOneVideoKey(state) {
       const videos = state.detail.video;
+      if (videos.length === 0) {
+        return '';
+      }
       if (videos.length === 1) {
         return videos[0].key;
       }
@@ -95,7 +107,7 @@ export const useMainStore = defineStore('mainStore', {
         console.log("[REQ] getDetailVideo", {
           type: type,
           id: id
-        }) 
+        });
         const video = await useFetch(`${this.mainDomain}/${type}/${id}/videos?api_key=${this.key}`);
         console.log("[RES] fetchDetailVideo", video.data.value);
         if (video.data.value) {
@@ -111,7 +123,7 @@ export const useMainStore = defineStore('mainStore', {
         console.log("[REQ] fetchDetailCast", {
           type: type,
           id: id
-        }) 
+        });
         const cast = await useFetch(`${this.mainDomain}/${type}/${id}/credits?api_key=${this.key}`);
         console.log("[RES] fetchDetailCast", cast.data.value);
         if (cast.data.value) {
@@ -127,7 +139,7 @@ export const useMainStore = defineStore('mainStore', {
         console.log("[REQ] fetchDetailSimilar", {
           type: type,
           id: id
-        }) 
+        });
         const similar = await useFetch(`${this.mainDomain}/${type}/${id}/similar?api_key=${this.key}`);
         console.log("[RES] fetchDetailSimilar", similar.data.value);
         if (similar.data.value && type === 'movie') {
@@ -138,6 +150,93 @@ export const useMainStore = defineStore('mainStore', {
         }
       } catch (err) {
         console.log('[ERR] fetchDetailSimilar', err)
+      }
+    },
+    async fetchGenreList(type: String) {
+      try {
+        console.log("[REQ] fetchGenreList", {
+          type: type,
+        });
+        const genres = await useFetch(`${this.mainDomain}/genre/${type}/list?api_key=${this.key}`);
+        console.log("[RES] fetchGenresList", genres.data.value);
+        if (genres.data.value && type === 'movie') {
+          this.genres.movie = (genres.data.value as any).genres;
+        }
+        if (genres.data.value && type === 'tv') {
+          this.genres.tvSeries = (genres.data.value as any).genres;
+        }
+      } catch (err) {
+        console.log('[ERR] fetchGenresList', err)
+      }
+    },
+    async fetchInitialAllMovies() {
+      const page = this.search.page;
+      const genre = this.search.genre;
+      try {
+        const allMovies = await useFetch(`${this.mainDomain}/discover/movie?api_key=${this.key}&sort_by=popularity.desc&page=${page}&with_genres=${genre.id || ''}`);
+        console.log("[RES] fetchInitialAllMovies", allMovies.data.value);
+        if (allMovies.data.value) {
+          this.movies = (allMovies.data.value as any).results;
+          this.search.page = this.search.page + 1;
+        }
+      } catch (err) {
+        console.log('[ERR] fetchInitialAllMovies', err)
+      }
+    },
+    async fetchMoreMovies() {
+      const page = this.search.page;
+      const genre = this.search.genre;
+      try {
+        console.log("[REQ] fetchMoreMovies", {
+          genre: genre,
+          page: page
+        });
+        const allMovies = await useFetch(`${this.mainDomain}/discover/movie?api_key=${this.key}&sort_by=popularity.desc&page=${page}&with_genres=${genre.id || ''}`);
+        console.log("[RES] fetchMoreMovies", allMovies.data.value);
+        if (allMovies.data.value) {
+          const result = (allMovies.data.value as any).results;
+          this.movies = [
+            ...this.movies, ...result
+          ]
+          this.search.page = this.search.page + 1;
+        }
+      } catch (err) {
+        console.log('[ERR] fetchMoreMovies', err)
+      }
+    },
+    async fetchInitialAllTvSeries() {
+      const page = this.search.page;
+      const genre = this.search.genre;
+      try {
+        const allTvSeries = await useFetch(`${this.mainDomain}/discover/tv?api_key=${this.key}&sort_by=popularity.desc&page=${page}&with_genres=${genre.id || ''}`);
+        console.log("[RES] fetchInitialAllTvSeries", allTvSeries.data.value);
+        if (allTvSeries.data.value) {
+          this.tvSeries = (allTvSeries.data.value as any).results;
+          this.search.page = this.search.page + 1;
+        }
+      } catch (err) {
+        console.log('[ERR] fetchInitialAllTvSeries', err)
+      }
+    },
+    async fetchMoreTvSeries() {
+      const page = this.search.page;
+      const genre = this.search.genre;
+      try {
+        console.log("[REQ] fetchMoreTvSeries", {
+          genre: genre,
+          page: page
+        });
+        const allTvSeries = await useFetch(`${this.mainDomain}/discover/tv?api_key=${this.key}&sort_by=popularity.desc&page=${page}&with_genres=${genre.id || ''}`);
+        console.log("[RES] fetchMoreTvSeries", allTvSeries.data.value);
+        if (allTvSeries.data.value) {
+          const result = (allTvSeries.data.value as any).results;
+          this.tvSeries = [
+            ...this.tvSeries, ...result
+          ]
+          this.search.page = this.search.page + 1;
+        }
+      } catch (err) {
+        console.log('[ERR] fetchMoreTvSeries', err)
       }
     },
   }

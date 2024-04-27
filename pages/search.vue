@@ -1,5 +1,5 @@
 <template>
   <main>
-    Search page
+    Search page On Development
   </main>
 </template>

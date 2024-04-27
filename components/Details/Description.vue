@@ -49,7 +49,7 @@
           </div>
         </div>
       </div>
-      <div class="w-[521px]">
+      <div class="w-[521px]" v-if="video_keys">
         <iframe 
           class="rounded-[20px] h-[291px] w-full" 
           :src="`https://www.youtube.com/embed/${video_keys}`"
