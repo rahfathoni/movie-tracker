@@ -1,8 +1,8 @@
 <script setup lang="ts">
   const mainStore = useMainStore();
-  const { getPopularMovie, getPopularTvSeries } = mainStore;
-  await getPopularMovie();
-  await getPopularTvSeries();
+  const { fetchPopularMovie, fetchPopularTvSeries } = mainStore;
+  await fetchPopularMovie();
+  await fetchPopularTvSeries();
   const { movies, tvSeries } = storeToRefs(mainStore);
   
   const toMovies = async () => {
@@ -26,7 +26,7 @@
         />
       </div>
       <div>
-        <CardsHorizontal :data="movies"/>
+        <CardsHorizontal :data="movies" type="movie"/>
       </div>
     </section>
     <section id="popularTvSeries">
@@ -40,7 +40,7 @@
         />
       </div>
       <div>
-        <CardsHorizontal :data="tvSeries"/>
+        <CardsHorizontal :data="tvSeries" type="tv"/>
       </div>
     </section>
   </main>

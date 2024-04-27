@@ -9,7 +9,7 @@ import { IconsSearch } from '#build/components';
       <input 
         autocomplete="off" 
         name="search" 
-        placeholder="&#8203;Search a movie or a series" 
+        placeholder="🔍 Search a movie or a series" 
         class="bg-cust-gray border-none rounded-full h-[57px] w-[630px] placeholder-black px-8 text-xl min-w-stretch-cust"
       />
     </div>
