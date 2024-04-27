@@ -17,7 +17,7 @@ export const useMainStore = defineStore('mainStore', {
     search: {
       name: '' as String,
       genre: {
-        id: '' as String,
+        id: 0 as Number,
         name: '' as String
       },
       page: 1,
