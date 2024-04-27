@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { onMounted } from 'vue';
   const props = defineProps<{
     title: String;
     poster_path: String;

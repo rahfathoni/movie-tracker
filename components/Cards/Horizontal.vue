@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { onMounted } from 'vue';
+
   const props = defineProps<{
     data: {};
     type: String;
@@ -18,7 +19,7 @@
         }
       });
     } else {
-      console.error("Either 'containerCard' or 'itemToScroll' is null");
+      console.error("Either 'horizontalCards' or 'itemToScroll' is null");
     }
   });
 
@@ -32,7 +33,7 @@
     <div id="itemToScroll" class="flex flex-nowrap pt-[22px] pb-[57px] overflow-x-scroll no-scrollbar">
       <div 
         v-for="datum in data" :key="datum.id"
-        class="inline-block pr-[22px]"
+        class="inline-block mr-[22px]"
       >
         <div
           class="cursor-pointer w-[177px] h-[263px] rounded-[20px] shadow-md hover:shadow-slate-500 hover:shadow-2xl transition-shadow duration-300 ease-in-out max-w-xs overflow-hidden"

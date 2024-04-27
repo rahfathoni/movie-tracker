@@ -99,25 +99,6 @@ export const useMainStore = defineStore('mainStore', {
         const video = await useFetch(`${this.mainDomain}/${type}/${id}/videos?api_key=${this.key}`);
         console.log("[RES] fetchDetailVideo", video.data.value);
         if (video.data.value) {
-          // const results = (video.data.value as any).results;
-          // if (results.length === 1) {
-          //   this.detail.video = (video.data.value as any).results;
-          //   return;
-          // }
-          // let finalVideo: [] = results.filter(
-          //   (item: any) => (item).site === 'YouTube' && (item).type === 'Trailer'
-          // );
-          // if (finalVideo.length > 0) {
-          //   this.detail.video = finalVideo;
-          //   return;
-          // }
-          // finalVideo = results.filter(
-          //   (item: any) => (item).site === 'YouTube' && (item).type === 'Teaser'
-          // );
-          // if (finalVideo.length > 0) {
-          //   this.detail.video = finalVideo;
-          //   return;
-          // }
           this.detail.video = (video.data.value as any).results;
         }
       } catch (err) {
@@ -149,8 +130,11 @@ export const useMainStore = defineStore('mainStore', {
         }) 
         const similar = await useFetch(`${this.mainDomain}/${type}/${id}/similar?api_key=${this.key}`);
         console.log("[RES] fetchDetailSimilar", similar.data.value);
-        if (similar.data.value) {
+        if (similar.data.value && type === 'movie') {
           this.detail.similar = (similar.data.value as any).results;
+        }
+        if (similar.data.value && type === 'tv') {
+          this.detail.similar = formattingTvSeries((similar.data.value as any).results);
         }
       } catch (err) {
         console.log('[ERR] fetchDetailSimilar', err)
