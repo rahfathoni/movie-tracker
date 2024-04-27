@@ -3,17 +3,42 @@
   mainStore.$patch({ search: {
     page: 1,
     genre: {
-      id: '',
+      id: 0,
       name: ''
     }
   }});
-  const { fetchInitialAllMovies, fetchMoreMovies } = mainStore;
+  const { fetchInitialAllMovies, fetchMoreMovies, fetchGenreList } = mainStore;
   await fetchInitialAllMovies();
-  const { movies, search } = storeToRefs(mainStore);
+  await callOnce(async () => {
+    await fetchGenreList('movie');
+  })
+
+  const { movies, genres, search } = storeToRefs(mainStore);
   
   const getMoreMovies = async () => {
     await fetchMoreMovies();
   };
+  const filterByGenre = async (select: any) => {
+    if(select.id === search.value.genre.id) {
+      mainStore.$patch({search: {
+        page: 1,
+        genre: {
+          id: 0,
+          name: ''
+        }
+      }});
+      await fetchInitialAllMovies()
+      return;
+    }
+    mainStore.$patch({search: {
+      page: 1,
+      genre: {
+        id: select.id,
+        name: select.name
+      }
+    }});
+    await fetchInitialAllMovies()
+  }
 </script>
 
 
@@ -25,10 +50,14 @@
           Movies
         </h2>
       </div>
-      <!-- <MainTab :data="genres.movie" type="movie" /> -->
-      <!-- <div>
-        tab {{ search }}
-      </div> -->
+      <div>
+        <MainTab 
+          :data="genres.movie" 
+          type="movie" 
+          @clickGenre="filterByGenre"
+          :selectedGenreId="search.genre.id"
+        />
+      </div>
       <div>
         <CardsList :data="movies" type="movie"/>
       </div>

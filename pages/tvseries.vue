@@ -3,17 +3,42 @@
   mainStore.$patch({ search: {
     page: 1,
     genre: {
-      id: '',
+      id: 0,
       name: ''
     }
   }});
-  const { fetchInitialAllTvSeries, fetchMoreTvSeries } = mainStore;
+  const { fetchInitialAllTvSeries, fetchMoreTvSeries, fetchGenreList } = mainStore;
   await fetchInitialAllTvSeries();
-  const { tvSeries, search } = storeToRefs(mainStore);
+  await callOnce(async () => {
+    await fetchGenreList('tv');
+  })
+
+  const { tvSeries, search, genres } = storeToRefs(mainStore);
   
   const getMoreTvSeries = async () => {
     await fetchMoreTvSeries();
   };
+  const filterByGenre = async (select: any) => {
+    if(select.id === search.value.genre.id) {
+      mainStore.$patch({search: {
+        page: 1,
+        genre: {
+          id: 0,
+          name: ''
+        }
+      }});
+      await fetchInitialAllTvSeries()
+      return;
+    }
+    mainStore.$patch({search: {
+      page: 1,
+      genre: {
+        id: select.id,
+        name: select.name
+      }
+    }});
+    await fetchInitialAllTvSeries()
+  }
 </script>
 
 
@@ -25,17 +50,21 @@
           Tv Series
         </h2>
       </div>
-      <!-- <MainTab :data="genres.movie" type="movie" /> -->
-      <!-- <div>
-        tab {{ search }}
-      </div> -->
+      <div>
+        <MainTab 
+          :data="genres.tvSeries" 
+          type="tv" 
+          @clickGenre="filterByGenre"
+          :selectedGenreId="search.genre.id"
+        />
+      </div>
       <div>
         <CardsList :data="tvSeries" type="tv"/>
       </div>
     </section>
     <section class="flex justify-center">
       <MainButton
-        label="Load more movies"
+        label="Load more tv series"
         bgColor="bg-green-500"
         fontWeight="font-bold"
         @click="getMoreTvSeries()"
