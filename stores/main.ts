@@ -15,7 +15,12 @@ export const useMainStore = defineStore('mainStore', {
     movies: [] as any[],
     tvSeries: [] as any[],
     search: {
-      input: '' as String,
+      name: '' as String,
+      genre: {
+        id: '' as String,
+        name: '' as String
+      },
+      page: 1,
       data: [] as any[]
     },
     detail: {
@@ -23,6 +28,10 @@ export const useMainStore = defineStore('mainStore', {
       video: [] as any[],
       cast: [] as any[],
       similar: [] as any[]
+    },
+    genres: {
+      movie: [] as any[],
+      tvSeries: [] as any[]
     },
     key: "973c81cddba2fbdbbb75d41fea67bbd8", // for trainig development purpose;
     mainDomain: "https://api.themoviedb.org/3"
@@ -95,7 +104,7 @@ export const useMainStore = defineStore('mainStore', {
         console.log("[REQ] getDetailVideo", {
           type: type,
           id: id
-        }) 
+        });
         const video = await useFetch(`${this.mainDomain}/${type}/${id}/videos?api_key=${this.key}`);
         console.log("[RES] fetchDetailVideo", video.data.value);
         if (video.data.value) {
@@ -111,7 +120,7 @@ export const useMainStore = defineStore('mainStore', {
         console.log("[REQ] fetchDetailCast", {
           type: type,
           id: id
-        }) 
+        });
         const cast = await useFetch(`${this.mainDomain}/${type}/${id}/credits?api_key=${this.key}`);
         console.log("[RES] fetchDetailCast", cast.data.value);
         if (cast.data.value) {
@@ -127,7 +136,7 @@ export const useMainStore = defineStore('mainStore', {
         console.log("[REQ] fetchDetailSimilar", {
           type: type,
           id: id
-        }) 
+        });
         const similar = await useFetch(`${this.mainDomain}/${type}/${id}/similar?api_key=${this.key}`);
         console.log("[RES] fetchDetailSimilar", similar.data.value);
         if (similar.data.value && type === 'movie') {
@@ -138,6 +147,58 @@ export const useMainStore = defineStore('mainStore', {
         }
       } catch (err) {
         console.log('[ERR] fetchDetailSimilar', err)
+      }
+    },
+    async fetchGenreList(type: String) {
+      try {
+        console.log("[REQ] fetchGenreList", {
+          type: type,
+        });
+        const genres = await useFetch(`${this.mainDomain}/genre/${type}/list?api_key=${this.key}`);
+        console.log("[RES] fetchGenresList", genres.data.value);
+        if (genres.data.value && type === 'movie') {
+          this.genres.movie = (genres.data.value as any).genres;
+        }
+        if (genres.data.value && type === 'tv') {
+          this.genres.tvSeries = (genres.data.value as any).genres;
+        }
+      } catch (err) {
+        console.log('[ERR] fetchGenresList', err)
+      }
+    },
+    async fetchInitialAllMovies() {
+      const page = this.search.page;
+      const genre = this.search.genre;
+      try {
+        const allMovies = await useFetch(`${this.mainDomain}/discover/movie?api_key=${this.key}&sort_by=popularity.desc&page=${page}&with_genres=${genre.id || ''}`);
+        console.log("[RES] fetchInitialAllMovies", allMovies.data.value);
+        if (allMovies.data.value) {
+          this.movies = (allMovies.data.value as any).results;
+          this.search.page = this.search.page + 1;
+        }
+      } catch (err) {
+        console.log('[ERR] fetchInitialAllMovies', err)
+      }
+    },
+    async fetchMoreMovies() {
+      const page = this.search.page;
+      const genre = this.search.genre;
+      try {
+        console.log("[REQ] fetchAllMovies", {
+          genre: genre,
+          page: page
+        });
+        const allMovies = await useFetch(`${this.mainDomain}/discover/movie?api_key=${this.key}&sort_by=popularity.desc&page=${page}&with_genres=${genre.id || ''}`);
+        console.log("[RES] fetchAllMovies", allMovies.data.value);
+        if (allMovies.data.value) {
+          const result = (allMovies.data.value as any).results;
+          this.movies = [
+            ...this.movies, ...result
+          ]
+          this.search.page = this.search.page + 1;
+        }
+      } catch (err) {
+        console.log('[ERR] fetchAllMovies', err)
       }
     },
   }

@@ -23,7 +23,7 @@
       class="pt-[48px]"
       :cast="detail.cast"
     />
-    <section id="popularMovies">
+    <section v-if="detail.similar && detail.similar.length > 0">
       <div class="flex justify-between items-center">
         <h2 class="font-medium text-[20px]">
           Related Movies
