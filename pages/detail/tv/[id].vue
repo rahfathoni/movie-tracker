@@ -1,24 +1,23 @@
 <script setup lang="ts">
   const route = useRoute();
   const mainStore = useMainStore();
-  const { getDetailData, getDetailVideo, getDetailCast, getDetailSimilar } = mainStore;  
+  const { fetchDetailData, fetchDetailVideo, fetchDetailCast, fetchDetailSimilar } = mainStore;  
   const { id } = route.params;
-  await getDetailData(id as String, 'tv');
-  await getDetailVideo(id as String, 'tv');
-  await getDetailCast(id as String, 'tv');
-  await getDetailSimilar(id as String, 'tv');
-  const { detail } = storeToRefs(mainStore);
+  await fetchDetailData(id as String, 'tv');
+  await fetchDetailVideo(id as String, 'tv');
+  await fetchDetailCast(id as String, 'tv');
+  await fetchDetailSimilar(id as String, 'tv');
+  const { detail, getOneVideoKey } = storeToRefs(mainStore);
 </script>
 
 <template>
-  <main id="detail">
-    <!-- <DetailsDescription 
-      :title="detail.data.title"
+  <main id="detailTvSeries">
+    <DetailsDescription 
+      :title="detail.data.name"
       :poster_path="detail.data.poster_path"
-      video_keys=""
-      :genre="[]"
-      description=""
-    /> -->
-    {{ detail }}
+      :genres="detail.data.genres"
+      :video_keys="getOneVideoKey"
+      :description="detail.data.overview"
+    />
   </main>
 </template>
