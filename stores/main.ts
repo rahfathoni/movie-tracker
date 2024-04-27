@@ -39,6 +39,9 @@ export const useMainStore = defineStore('mainStore', {
   getters: {
     getOneVideoKey(state) {
       const videos = state.detail.video;
+      if (videos.length === 0) {
+        return '';
+      }
       if (videos.length === 1) {
         return videos[0].key;
       }
@@ -184,12 +187,12 @@ export const useMainStore = defineStore('mainStore', {
       const page = this.search.page;
       const genre = this.search.genre;
       try {
-        console.log("[REQ] fetchAllMovies", {
+        console.log("[REQ] fetchMoreMovies", {
           genre: genre,
           page: page
         });
         const allMovies = await useFetch(`${this.mainDomain}/discover/movie?api_key=${this.key}&sort_by=popularity.desc&page=${page}&with_genres=${genre.id || ''}`);
-        console.log("[RES] fetchAllMovies", allMovies.data.value);
+        console.log("[RES] fetchMoreMovies", allMovies.data.value);
         if (allMovies.data.value) {
           const result = (allMovies.data.value as any).results;
           this.movies = [
@@ -198,7 +201,42 @@ export const useMainStore = defineStore('mainStore', {
           this.search.page = this.search.page + 1;
         }
       } catch (err) {
-        console.log('[ERR] fetchAllMovies', err)
+        console.log('[ERR] fetchMoreMovies', err)
+      }
+    },
+    async fetchInitialAllTvSeries() {
+      const page = this.search.page;
+      const genre = this.search.genre;
+      try {
+        const allTvSeries = await useFetch(`${this.mainDomain}/discover/tv?api_key=${this.key}&sort_by=popularity.desc&page=${page}&with_genres=${genre.id || ''}`);
+        console.log("[RES] fetchInitialAllTvSeries", allTvSeries.data.value);
+        if (allTvSeries.data.value) {
+          this.tvSeries = (allTvSeries.data.value as any).results;
+          this.search.page = this.search.page + 1;
+        }
+      } catch (err) {
+        console.log('[ERR] fetchInitialAllTvSeries', err)
+      }
+    },
+    async fetchMoreTvSeries() {
+      const page = this.search.page;
+      const genre = this.search.genre;
+      try {
+        console.log("[REQ] fetchMoreTvSeries", {
+          genre: genre,
+          page: page
+        });
+        const allTvSeries = await useFetch(`${this.mainDomain}/discover/tv?api_key=${this.key}&sort_by=popularity.desc&page=${page}&with_genres=${genre.id || ''}`);
+        console.log("[RES] fetchMoreTvSeries", allTvSeries.data.value);
+        if (allTvSeries.data.value) {
+          const result = (allTvSeries.data.value as any).results;
+          this.tvSeries = [
+            ...this.tvSeries, ...result
+          ]
+          this.search.page = this.search.page + 1;
+        }
+      } catch (err) {
+        console.log('[ERR] fetchMoreTvSeries', err)
       }
     },
   }

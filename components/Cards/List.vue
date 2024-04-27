@@ -12,7 +12,7 @@
 <template>
   <div id="ListCards" class="flex ">
     <div 
-      class="flex flex-wrap justify-between pt-[22px] pb-[57px] "
+      class="flex flex-wrap justify-between"
     >
     <div 
         v-for="datum in data" :key="datum.id"
