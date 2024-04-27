@@ -26,7 +26,7 @@
         />
       </div>
       <div>
-        <CardsHorizontal :data="movies"/>
+        <CardsHorizontal :data="movies" type="movie"/>
       </div>
     </section>
     <section id="popularTvSeries">
@@ -40,7 +40,7 @@
         />
       </div>
       <div>
-        <CardsHorizontal :data="tvSeries"/>
+        <CardsHorizontal :data="tvSeries" type="tv"/>
       </div>
     </section>
   </main>

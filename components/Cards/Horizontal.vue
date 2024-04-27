@@ -1,10 +1,8 @@
 <script setup lang="ts">
   import { onMounted } from 'vue';
   const props = defineProps<{
-    data: {
-      id: Number,
-      name: String
-    }[];
+    data: {};
+    type: String;
   }>();
   const { data } = props;
 
@@ -23,6 +21,10 @@
       console.error("Either 'containerCard' or 'itemToScroll' is null");
     }
   });
+
+  const toDetail = async (id: Number, t: String) => {
+    await navigateTo(`/detail/${t}/${id}`);
+  }
 </script>
 
 <template>
@@ -33,8 +35,9 @@
         class="inline-block pr-[22px]"
       >
         <div
-          class="w-[177px] h-[263px] rounded-[20px] shadow-md hover:shadow-slate-500 hover:shadow-2xl transition-shadow duration-300 ease-in-out max-w-xs overflow-hidden"
-        >
+          class="cursor-pointer w-[177px] h-[263px] rounded-[20px] shadow-md hover:shadow-slate-500 hover:shadow-2xl transition-shadow duration-300 ease-in-out max-w-xs overflow-hidden"
+          @click="toDetail(datum.id, type)"
+          >
           <img :src="`https://image.tmdb.org/t/p/w500${datum.poster_path}`" :alt="datum.title" />
         </div>
       </div>
