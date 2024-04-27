@@ -19,5 +19,9 @@
       :video_keys="getOneVideoKey"
       :description="detail.data.overview"
     />
+    <DetailsCast 
+      class="pt-[48px]"
+      :cast="detail.cast"
+    />
   </main>
 </template>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { onMounted } from 'vue';
   const props = defineProps<{
     title: String;
     poster_path: String;
@@ -11,7 +10,7 @@
 </script>
 
 <template>
-  <section>
+  <div>
     <h1 class="text-4xl font-bold">{{ title }}</h1>
     <div class="flex flex-col md:flex-row pt-5 justify-between">
       <div class="md:flex-auto flex flex-col md:flex-row h-[291px] pt-[26px]">
@@ -57,5 +56,5 @@
         ></iframe>
       </div>
     </div>
-  </section>
+  </div>
 </template>
