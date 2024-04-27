@@ -8,7 +8,7 @@
 
   onMounted(() => {
     const containerCard = document.getElementById("castCards");
-    const itemToScroll = document.getElementById("itemToScroll");
+    const itemToScroll = document.getElementById("itemToScrollCard");
     
     if (containerCard && itemToScroll) {
       containerCard.addEventListener("wheel", function(e) {
@@ -18,18 +18,18 @@
         }
       });
     } else {
-      console.error("Either 'castCards' or 'itemToScroll' is null");
+      console.error("Either 'castCards' or 'itemToScrollCard' is null");
     }
   });
 </script>
 
 <template>
-  <div>
+  <section>
     <h2 class="font-medium text-[20px]">
       Cast
     </h2>
     <div id="castCard" class="flex">
-      <div id="itemToScroll" class="flex flex-nowrap pt-[22px] pb-[57px] overflow-x-scroll no-scrollbar">
+      <div id="itemToScrollCard" class="flex flex-nowrap pt-[22px] pb-[57px] overflow-x-scroll no-scrollbar">
         <div 
           v-for="datum in cast" :key="datum.id"
           class="mr-[22px] bg-white rounded-[20px] shadow-md hover:shadow-slate-500 hover:shadow-2xl transition-shadow duration-300 ease-in-out"
@@ -49,5 +49,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>

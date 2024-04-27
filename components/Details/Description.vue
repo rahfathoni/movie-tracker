@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <div>
+  <section>
     <h1 class="text-4xl font-bold">{{ title }}</h1>
     <div class="flex flex-col md:flex-row pt-5 justify-between">
       <div class="md:flex-auto flex flex-col md:flex-row h-[291px] pt-[26px]">
@@ -56,5 +56,5 @@
         ></iframe>
       </div>
     </div>
-  </div>
+  </section>
 </template>

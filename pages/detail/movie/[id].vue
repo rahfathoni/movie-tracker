@@ -23,5 +23,15 @@
       class="pt-[48px]"
       :cast="detail.cast"
     />
+    <section id="popularMovies">
+      <div class="flex justify-between items-center">
+        <h2 class="font-medium text-[20px]">
+          Related Movies
+        </h2>
+      </div>
+      <div>
+        <CardsHorizontal :data="detail.similar" type="movie"/>
+      </div>
+    </section>
   </main>
 </template>
