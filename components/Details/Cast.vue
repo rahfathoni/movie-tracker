@@ -1,15 +1,29 @@
 <script setup lang="ts">
   import { onMounted } from 'vue';
 
-  const props = defineProps<{
-    cast: [];
-  }>();
-  const { cast } = props;
+  // const props = defineProps<{
+  //   cast: [];
+  // }>();
+  // const { cast } = props;
+
+  interface ICast {
+    id: number;
+    profile_path: string;
+    name: string;
+    character: string;
+  }
+
+  const props = defineProps({
+    cast: {
+      type: Array as () => ICast[],
+      default: () => []
+    },
+  });
 
   onMounted(() => {
     const containerCard = document.getElementById("castCards");
     const itemToScroll = document.getElementById("itemToScrollCard");
-    
+
     if (containerCard && itemToScroll) {
       containerCard.addEventListener("wheel", function(e) {
         if (Math.abs(e.deltaY) > 0) {

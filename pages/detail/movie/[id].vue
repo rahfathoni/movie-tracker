@@ -13,7 +13,7 @@
 <template>
   <main id="detailMovie">
     <DetailsDescription 
-      :title="detail.data.title"
+      :title="typeof detail.data.title === 'string' ? detail.data.title : ''"
       :poster_path="detail.data.poster_path"
       :genres="detail.data.genres"
       :video_keys="getOneVideoKey"

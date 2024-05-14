@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import type { IMovies, ITvSeries, IDetailData } from './types';
 
 const formattingTvSeries = (arr: Array<any>): Array<any> => {
   const result = arr.map((item: any) => ({
@@ -12,8 +13,10 @@ const formattingTvSeries = (arr: Array<any>): Array<any> => {
 
 export const useMainStore = defineStore('mainStore', {
   state: () => ({
-    movies: [] as any[],
-    tvSeries: [] as any[],
+    // movies: [] as any[],
+    // tvSeries: [] as any[],
+    movies: [] as IMovies[],
+    tvSeries: [] as ITvSeries[],
     search: {
       name: '' as String,
       genre: {
@@ -24,7 +27,8 @@ export const useMainStore = defineStore('mainStore', {
       data: [] as any[]
     },
     detail: {
-      data: {} as any,
+      // data: {} as any,
+      data: {} as IDetailData,
       video: [] as any[],
       cast: [] as any[],
       similar: [] as any[]
@@ -86,7 +90,8 @@ export const useMainStore = defineStore('mainStore', {
       }
     },
     async fetchDetailData(id: String, type: String) {
-      this.detail.data = {};
+      // this.detail.data = {};
+      this.detail.data = {} as IDetailData;
       try {
         console.log("[REQ] getDetailData ", {
           type: type,

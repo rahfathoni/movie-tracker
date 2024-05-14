@@ -1,12 +1,25 @@
 <script setup lang="ts">
-  const props = defineProps<{
-    title: String;
-    poster_path: String;
-    video_keys: String;
-    genres: [],
-    description: String;
-  }>();
-  const { title, poster_path } = props;
+  // const props = defineProps<{
+  //   title: String;
+  //   poster_path: String;
+  //   video_keys: String;
+  //   genres: [],
+  //   description: String;
+  // }>();
+  // const { title, poster_path } = props;
+
+  interface IGenre {
+    id: number;
+    name: string;
+  }
+
+  const props = defineProps({
+    title: String,
+    poster_path: String,
+    video_keys: String,
+    genres: Array as () => IGenre[],
+    description: String,
+  });  
 </script>
 
 <template>
