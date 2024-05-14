@@ -55,14 +55,14 @@
           :data="genres.tvSeries" 
           type="tv" 
           @clickGenre="filterByGenre"
-          :selectedGenreId="search.genre.id"
+          :selectedGenreId="typeof search.genre.id === 'number' ? search.genre.id : 0"
         />
       </div>
       <div>
         <CardsList :data="tvSeries" type="tv"/>
       </div>
     </section>
-    <section class="flex justify-center">
+    <section v-if="tvSeries && tvSeries.length > 0" class="flex justify-center">
       <MainButton
         label="Load more tv series"
         bgColor="bg-green-500"

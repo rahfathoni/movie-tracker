@@ -1,8 +1,28 @@
 <script setup lang="ts">
   import { onMounted } from 'vue';
 
+  // const props = defineProps({
+  //   data: {},
+  //   type: {
+  //     type: String,
+  //     default: "bg-cust-gray"
+  //   },
+  //   selectedGenreId: {
+  //     type: Number,
+  //     default: 0
+  //   }
+  // });
+  
+  interface IData {
+    id: number;
+    name: string;
+  }
+
   const props = defineProps({
-    data: {},
+    data: {
+      type: Array as () => IData[],
+      default: () => []
+    },
     type: {
       type: String,
       default: "bg-cust-gray"

@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import type { IMovies, ITvSeries, IDetailData } from './types';
 
 const formattingTvSeries = (arr: Array<any>): Array<any> => {
   const result = arr.map((item: any) => ({
@@ -9,22 +10,36 @@ const formattingTvSeries = (arr: Array<any>): Array<any> => {
     }));
   return result;
 }
+const formattingSearchData = (arr: Array<any>): Array<any> => {
+  const result = arr
+    .filter((item: any) => item.media_type !== 'person')
+    .map((item: any) => ({
+      ...item,
+      title: item.name || (item.title ? item.title : ''),
+      original_title: item.original_name || (item.original_title ? item.original_title : ''),
+      release_date: item.first_air_date || (item.release_date ? item.release_date : '')
+    }));
+  return result;
+}
 
 export const useMainStore = defineStore('mainStore', {
   state: () => ({
-    movies: [] as any[],
-    tvSeries: [] as any[],
+    // movies: [] as any[],
+    // tvSeries: [] as any[],
+    movies: [] as IMovies[],
+    tvSeries: [] as ITvSeries[],
     search: {
-      name: '' as String,
+      name: '' as string,
       genre: {
-        id: 0 as Number,
-        name: '' as String
+        id: 0 as number,
+        name: '' as string
       },
       page: 1,
-      data: [] as any[]
+      data: [] as any[],
     },
     detail: {
-      data: {} as any,
+      // data: {} as any,
+      data: {} as IDetailData,
       video: [] as any[],
       cast: [] as any[],
       similar: [] as any[]
@@ -86,7 +101,8 @@ export const useMainStore = defineStore('mainStore', {
       }
     },
     async fetchDetailData(id: String, type: String) {
-      this.detail.data = {};
+      // this.detail.data = {};
+      this.detail.data = {} as IDetailData;
       try {
         console.log("[REQ] getDetailData ", {
           type: type,
@@ -237,6 +253,44 @@ export const useMainStore = defineStore('mainStore', {
         }
       } catch (err) {
         console.log('[ERR] fetchMoreTvSeries', err)
+      }
+    },
+    async fetchInitalSearchContent() {
+      const page = this.search.page;
+      const name = this.search.name ? this.search.name.toLowerCase() : '';
+      try {
+        console.log("[REQ] fetchInitalSearchContent", {
+          name: name
+        });
+        const searchContent = await useFetch(`${this.mainDomain}/search/multi?api_key=${this.key}&sort_by=popularity.desc&page=${page}&query=${name || ''}`);
+        console.log("[RES] fetchInitalSearchContent", searchContent.data.value);
+        if (searchContent.data.value) {
+          this.search.data = formattingSearchData((searchContent.data.value as any).results);
+          this.search.page = this.search.page + 1;
+        }
+      } catch (err) {
+        console.log('[ERR] fetchInitalSearchContent', err)
+      }
+    },
+    async fetchMoreSearchContent() {
+      const page = this.search.page;
+      const name = this.search.name ? this.search.name.toLowerCase() : '';
+      try {
+        console.log("[REQ] fetchMoreSearchContent", {
+          name: name,
+          page: page
+        });
+        const searchContent = await useFetch(`${this.mainDomain}/search/multi?api_key=${this.key}&sort_by=popularity.desc&page=${page}&query=${name || ''}`);
+        console.log("[RES] fetchMoreSearchContent", searchContent.data.value);
+        if (searchContent.data.value) {
+          const result = formattingSearchData((searchContent.data.value as any).results);
+          this.search.data = [
+            ...this.search.data, ...result
+          ]
+          this.search.page = this.search.page + 1;
+        }
+      } catch (err) {
+        console.log('[ERR] fetchMoreSearchContent', err)
       }
     },
   }
