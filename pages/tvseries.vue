@@ -62,7 +62,7 @@
         <CardsList :data="tvSeries" type="tv"/>
       </div>
     </section>
-    <section class="flex justify-center">
+    <section v-if="tvSeries && tvSeries.length > 0" class="flex justify-center">
       <MainButton
         label="Load more tv series"
         bgColor="bg-green-500"

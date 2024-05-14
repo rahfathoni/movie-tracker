@@ -62,7 +62,7 @@
         <CardsList :data="movies" type="movie"/>
       </div>
     </section>
-    <section class="flex justify-center">
+    <section v-if="movies && movies.length > 0" class="flex justify-center">
       <MainButton
         label="Load more movies"
         bgColor="bg-green-500"

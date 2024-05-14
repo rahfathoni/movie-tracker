@@ -1,11 +1,22 @@
 <script setup lang="ts">
   import { onMounted } from 'vue';
 
-  const props = defineProps<{
-    data: {};
-    type: String;
-  }>();
-  const { data } = props;
+  // const props = defineProps<{
+  //   data: {};
+  //   type: String;
+  // }>();
+  // const { data } = props;
+
+  const props = defineProps({
+    data: {
+      type: Array as () => any[],
+      default: () => []
+    },
+    type: {
+      type: String,
+      default: ""
+    },
+  });
 
   onMounted(() => {
     const containerCard = document.getElementById("horizontalCards");
