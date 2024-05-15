@@ -53,7 +53,6 @@
       <div>
         <MainTab 
           :data="genres.movie" 
-          type="movie" 
           @clickGenre="filterByGenre"
           :selectedGenreId="typeof search.genre.id === 'number' ? search.genre.id : 0"
         />

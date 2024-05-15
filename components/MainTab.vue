@@ -23,10 +23,6 @@
       type: Array as () => IData[],
       default: () => []
     },
-    type: {
-      type: String,
-      default: "bg-cust-gray"
-    },
     selectedGenreId: {
       type: Number,
       default: 0
