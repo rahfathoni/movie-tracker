@@ -16,7 +16,7 @@ describe('moviePage', () => {
     expect(wrapper.html()).toContain('<main id="moviePage"');
   });
 
-  it('renders title', () => {
+  it('renders subtitle', () => {
     const header = wrapper.find('h2#subtitle');
     expect(header.exists()).toBe(true);
     expect(header.text()).toBe('Movies');
