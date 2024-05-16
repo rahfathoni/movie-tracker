@@ -46,7 +46,7 @@
   <main id="moviePage" class="pb-[30px]">
     <section id="movies">
       <div class="flex items-center">
-        <h2 class="font-medium text-[20px]">
+        <h2 id="subtitle" class="font-medium text-[20px]">
           Movies
         </h2>
       </div>
