@@ -1,5 +1,5 @@
 import { mountSuspended } from '@nuxt/test-utils/runtime';
-import { NuxtLink, IconsHome, IconsMovie, IconsDeviceTV, IconsSearch } from '#components'
+import { NuxtLink, IconsHome, IconsMovie, IconsDeviceTV, IconsSearch } from '#components';
 import { describe, expect, it, beforeAll } from 'vitest';
 import Sidebar from '~/components/Sidebar.vue';
 
