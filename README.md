@@ -2,11 +2,15 @@
 
 https://movie-tracker-fathoni.vercel.app/
 
-## HOW TO OPEN FROM GIT REPOSITORY
+## HOW TO RUN WEBSITE LOCALLY
 
-  1. git clone https://github.com/rahfathoni/movie-tracker.git
-  2. npm install
-  3. npm run dev
+  1. In terminal or git bash, git clone https://github.com/rahfathoni/movie-tracker.git
+  2. In terminal, npm install
+  3. In terminal, npm run dev
+
+## HOW TO RUN CHECK UNIT TEST
+
+  1. In terminal, npm run test
 
 # Nuxt 3 Minimal Starter
 
