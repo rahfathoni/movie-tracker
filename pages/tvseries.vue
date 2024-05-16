@@ -46,7 +46,7 @@
   <main id="tvSeriesPage" class="pb-[30px]">
     <section id="tvSeries">
       <div class="flex items-center">
-        <h2 class="font-medium text-[20px]">
+        <h2 id="subtitle" class="font-medium text-[20px]">
           Tv Series
         </h2>
       </div>

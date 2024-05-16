@@ -1,7 +1,7 @@
 import { mountSuspended, mockNuxtImport } from '@nuxt/test-utils/runtime';
 import { MainButton, CardsHorizontal } from '#components';
 import { beforeAll, describe, expect, it, vi } from "vitest";
-import index from '~/pages/index.vue';
+import indexPage from '~/pages/index.vue';
 // import { setActivePinia, createPinia, defineStore } from 'pinia';
 
 // TODO: testing pinia for data
@@ -46,7 +46,7 @@ const mockTvSeries = [
 //   }
 // });
 
-describe('index', () => {
+describe('indexPage', () => {
   let wrapper: any;
   const navigateToMock = vi.hoisted(() => vi.fn());
   mockNuxtImport('navigateTo', () => {
@@ -54,7 +54,7 @@ describe('index', () => {
   });
 
   beforeAll(async () => {
-    wrapper = await mountSuspended(index);
+    wrapper = await mountSuspended(indexPage);
 
     // const pinia = createPinia();
     // setActivePinia(pinia);
@@ -86,13 +86,9 @@ describe('index', () => {
       expect(heading.text()).toBe('Popular Movies');
     });
 
-    it('renders MainButton component', () => {
+    it('renders MainButton component and navigate to movies page on click', async () => {
       const button = wrapper.find('#popularMovies').findComponent(MainButton);
       expect(button.exists()).toBe(true);
-    });
-
-    it('navigates to movies page on button click', async () => {
-      const button = wrapper.find('#popularMovies').findComponent(MainButton);
       await button.trigger('click');
       expect(navigateToMock).toHaveBeenCalledWith('/movie');
     });
@@ -115,13 +111,9 @@ describe('index', () => {
       expect(heading.text()).toBe('Popular Tv Series');
     });
 
-    it('renders MainButton component', () => {
+    it('renders MainButton component and navigate to tv series on click', async () => {
       const button = wrapper.find('#popularTvSeries').findComponent(MainButton);
       expect(button.exists()).toBe(true);
-    });
-
-    it('navigates to movies page on button click', async () => {
-      const button = wrapper.find('#popularTvSeries').findComponent(MainButton);
       await button.trigger('click');
       expect(navigateToMock).toHaveBeenCalledWith('/tvseries');
     });
