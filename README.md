@@ -4,13 +4,29 @@ https://movie-tracker-fathoni.vercel.app/
 
 ## HOW TO RUN WEBSITE LOCALLY
 
-  1. In terminal or git bash, git clone https://github.com/rahfathoni/movie-tracker.git
-  2. In terminal, npm install
-  3. In terminal, npm run dev
+  1. In terminal or git bash, clone repository:
+      ```
+      git clone https://github.com/rahfathoni/movie-tracker.git
+      ``` 
+  2. In terminal, install dependencies:
+      ```
+      npm install
+      ```
+  3. In terminal, run website locally:
+      ```
+      npm run dev
+      ```
 
-## HOW TO RUN CHECK UNIT TEST
+## HOW TO RUN UNIT TESTS
 
-  1. In terminal, npm run test
+  - To run all unit tests, in terminal:
+    ```
+    npm run test
+    ```
+  - to run unit tests with Dashboard and Coverage report, in terminal:
+    ```
+    npm run test-ui-coverage
+    ```
 
 # Nuxt 3 Minimal Starter
 
